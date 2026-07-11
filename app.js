@@ -99,6 +99,11 @@ function startQuiz() {
   appState.quiz.started = true;
   appState.quiz.completed = false;
 
+  if (appState.quiz.questions.length === 0) {
+    alert('No questions available for this topic. Try: Math, Science, or Exams');
+    return;
+  }
+
   document.getElementById('quizSetup').classList.add('hidden');
   document.getElementById('quizSession').classList.remove('hidden');
   document.getElementById('quizResults').classList.add('hidden');
@@ -108,36 +113,14 @@ function startQuiz() {
 }
 
 function generateQuestions(topic, count) {
-  const sampleQuestions = {
-    'biology': [
-      { q: 'What is the basic unit of life?', a: ['Cell', 'Tissue', 'Organ', 'System'], c: 0 },
-      { q: 'Which organelle is responsible for energy production?', a: ['Nucleus', 'Mitochondria', 'Ribosome', 'Lysosome'], c: 1 },
-      { q: 'What process do plants use to make food?', a: ['Respiration', 'Photosynthesis', 'Fermentation', 'Digestion'], c: 1 },
-      { q: 'How many chromosomes do humans have?', a: ['23', '46', '48', '64'], c: 1 },
-      { q: 'What is the powerhouse of the cell?', a: ['Nucleus', 'Mitochondria', 'Chloroplast', 'Ribosome'], c: 1 },
-    ],
-    'math': [
-      { q: 'What is 12 × 8?', a: ['84', '96', '108', '124'], c: 1 },
-      { q: 'What is the square root of 144?', a: ['10', '11', '12', '13'], c: 2 },
-      { q: 'What is 50% of 200?', a: ['50', '75', '100', '150'], c: 2 },
-      { q: 'What is the area of a square with side 5?', a: ['10', '20', '25', '30'], c: 2 },
-      { q: 'What is 2³?', a: ['6', '8', '9', '12'], c: 1 },
-    ],
-    'history': [
-      { q: 'In which year did World War II end?', a: ['1943', '1944', '1945', '1946'], c: 2 },
-      { q: 'Who was the first president of the USA?', a: ['Jefferson', 'Washington', 'Madison', 'Adams'], c: 1 },
-      { q: 'In which century was the Renaissance?', a: ['13th', '14th-17th', '18th', '19th'], c: 1 },
-      { q: 'Where was the signing of the Magna Carta?', a: ['France', 'Germany', 'England', 'Italy'], c: 2 },
-      { q: 'What year did the Titanic sink?', a: ['1910', '1912', '1915', '1920'], c: 1 },
-    ],
-  };
-
-  let topicQuestions = sampleQuestions[topic.toLowerCase()] || sampleQuestions['biology'];
+  // Use QB_BRAIN from data.js
+  const questions = getQuestionsByTopic(topic);
   
-  return topicQuestions
-    .sort(() => Math.random() - 0.5)
-    .slice(0, count)
-    .map(q => ({ ...q }));
+  if (questions.length === 0) {
+    return [];
+  }
+  
+  return getRandomQuestions(questions, count);
 }
 
 function displayQuestion() {
