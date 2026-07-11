@@ -98,7 +98,7 @@
             <h2>Start a Quiz</h2>
             <div class="form-group">
               <label for="quizTopic">Topic</label>
-              <input type="text" id="quizTopic" placeholder="e.g., Biology, Math, History" class="input-field">
+              <input type="text" id="quizTopic" placeholder="e.g., Math, Physics, Biology" class="input-field">
             </div>
             <div class="form-group">
               <label for="quizCount">Number of Questions</label>
@@ -109,6 +109,9 @@
               </select>
             </div>
             <button onclick="startQuiz()" class="btn-primary">Start Quiz</button>
+            <div style="margin-top: 1rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.5rem;">
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Available topics: <strong>Math, Science, Exams</strong></p>
+            </div>
           </div>
 
           <div id="quizSession" class="quiz-session hidden">
@@ -231,6 +234,7 @@
       });
     }
   </script>
+  <script src="/QB/data.js"></script>
   <script src="/QB/app.js"></script>
 </body>
 </html>
