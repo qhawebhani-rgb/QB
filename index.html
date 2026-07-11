@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QB for School - Do school work faster with AI assistance">
+  <meta name="theme-color" content="#2563eb">
+  <title>QB for School - Do school work faster 📚</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1e40af;
+      --primary-light: #3b82f6;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background-color: #f9fafb;
+    }
+
+    header {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 8px;
+      border-left: 4px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #111827;
+        color: #f3f4f6;
+      }
+      .card {
+        background-color: #1f2937 !important;
+      }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .loading {
+      animation: spin 1s linear infinite;
+    }
+
+    @media (max-width: 768px) {
+      #search {
+        width: 100% !important;
+        margin-top: 10px;
+      }
+      main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center flex-wrap">
+      <div class="flex items-center gap-2 mb-2 md:mb-0">
+        <h1 class="text-3xl font-bold">📚 QB for School</h1>
+        <span class="text-sm bg-blue-500 px-2 py-1 rounded">v1.0</span>
+      </div>
+      <input id="search" type="text" placeholder="Search subjects..." class="px-4 py-2 rounded text-black w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-yellow-400" aria-label="Search subjects">
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6">
+    <!-- Welcome Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">Welcome back! 👋</h2>
+      <p class="text-gray-600">Ready to ace your studies? Choose a subject or use one of our tools below.</p>
+    </section>
+
+    <!-- 1. SUBJECTS SECTION -->
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-4 flex-wrap">
+        <h3 class="text-2xl font-bold">📚 Subjects</h3>
+        <a href="#" onclick="viewAllSubjects(); return false;" class="text-blue-600 hover:underline text-sm">View All →</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="subjectsGrid">
+        <button onclick="openSubject('Mathematics')" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-red-500">
+          <div class="text-4xl mb-2">📊</div>
+          <div class="font-semibold">Mathematics</div>
+          <div class="text-xs text-gray-500 mt-1">Algebra, Geometry, Calculus</div>
+        </button>
+        <button onclick="openSubject('Science')" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-green-500">
+          <div class="text-4xl mb-2">🧪</div>
+          <div class="font-semibold">Science</div>
+          <div class="text-xs text-gray-500 mt-1">Physics, Chemistry, Biology</div>
+        </button>
+        <button onclick="openSubject('English')" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-yellow-500">
+          <div class="text-4xl mb-2">📖</div>
+          <div class="font-semibold">English</div>
+          <div class="text-xs text-gray-500 mt-1">Literature, Grammar, Writing</div>
+        </button>
+        <button onclick="openSubject('History')" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-purple-500">
+          <div class="text-4xl mb-2">🌍</div>
+          <div class="font-semibold">History</div>
+          <div class="text-xs text-gray-500 mt-1">World Events, Timelines</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. TOOLS SECTION -->
+    <section class="mb-12">
+      <h3 class="text-2xl font-bold mb-4">🛠 Tools</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="toolsGrid">
+        <button onclick="openCalculator()" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-orange-500" title="Scientific calculator for quick calculations">
+          <div class="text-4xl mb-2">🧮</div>
+          <div class="font-semibold">Calculator</div>
+          <div class="text-xs text-gray-500 mt-1">Basic & Scientific</div>
+        </button>
+        <button onclick="openTimetable()" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-cyan-500" title="Manage your class schedule">
+          <div class="text-4xl mb-2">📅</div>
+          <div class="font-semibold">Timetable</div>
+          <div class="text-xs text-gray-500 mt-1">Schedule Management</div>
+        </button>
+        <button onclick="openTodo()" class="card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-pink-500" title="Track your assignments">
+          <div class="text-4xl mb-2">✅</div>
+          <div class="font-semibold">To-Do List</div>
+          <div class="text-xs text-gray-500 mt-1">Task Tracking</div>
+        </button>
+        <button onclick="openTutor()" class="card bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-6 rounded-lg shadow hover:shadow-xl transition duration-200 transform hover:scale-105 cursor-pointer border-l-4 border-blue-700" title="Ask AI for help with any topic">
+          <div class="text-4xl mb-2">🤖</div>
+          <div class="font-semibold">AI Tutor</div>
+          <div class="text-xs text-blue-100 mt-1">Ask Anything</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. UPLOAD / SHARE NOTES SECTION -->
+    <section class="mb-12">
+      <h3 class="text-2xl font-bold mb-4">📤 Share Notes</h3>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <p class="text-gray-600 mb-4">Upload your notes and share them with classmates. Supported formats: PDF, DOCX, TXT, Images</p>
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition" id="dropZone">
+          <input type="file" id="upload" class="hidden" accept=".pdf,.docx,.txt,.jpg,.png,.jpeg" aria-label="Select file to upload" multiple>
+          <label for="upload" class="cursor-pointer">
+            <div class="text-4xl mb-2">📁</div>
+            <p class="font-semibold text-gray-700">Click to upload or drag and drop</p>
+            <p class="text-sm text-gray-500 mt-1">PDF, DOCX, TXT, JPG, PNG (Max 10MB each)</p>
+          </label>
+        </div>
+        <button onclick="uploadFile()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg mt-4 transition" id="uploadBtn">Upload</button>
+        <p id="uploadMsg" class="text-sm text-gray-600 mt-3"></p>
+        <div id="uploadProgress" class="hidden mt-3 w-full bg-gray-200 rounded-full h-2">
+          <div id="progressBar" class="bg-green-500 h-2 rounded-full transition" style="width: 0%"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CALCULATOR POPUP -->
+  <div id="calculatorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-2xl w-96 p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="text-2xl font-bold">🧮 Calculator</h4>
+        <button onclick="closeCalculator()" class="text-2xl hover:text-red-600">✕</button>
+      </div>
+      <input type="text" id="calcDisplay" class="w-full border-2 border-gray-300 p-3 rounded mb-4 text-right text-2xl font-mono" readonly>
+      <div class="grid grid-cols-4 gap-2 mb-4">
+        <button onclick="appendCalc('7')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">7</button>
+        <button onclick="appendCalc('8')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">8</button>
+        <button onclick="appendCalc('9')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">9</button>
+        <button onclick="appendCalc('/')" class="bg-orange-500 text-white p-3 rounded font-bold hover:bg-orange-600">÷</button>
+        
+        <button onclick="appendCalc('4')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">4</button>
+        <button onclick="appendCalc('5')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">5</button>
+        <button onclick="appendCalc('6')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">6</button>
+        <button onclick="appendCalc('*')" class="bg-orange-500 text-white p-3 rounded font-bold hover:bg-orange-600">×</button>
+        
+        <button onclick="appendCalc('1')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">1</button>
+        <button onclick="appendCalc('2')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">2</button>
+        <button onclick="appendCalc('3')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">3</button>
+        <button onclick="appendCalc('-')" class="bg-orange-500 text-white p-3 rounded font-bold hover:bg-orange-600">−</button>
+        
+        <button onclick="appendCalc('0')" class="col-span-2 bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">0</button>
+        <button onclick="appendCalc('.')" class="bg-gray-200 p-3 rounded font-bold hover:bg-gray-300">.</button>
+        <button onclick="appendCalc('+')" class="bg-orange-500 text-white p-3 rounded font-bold hover:bg-orange-600">+</button>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="clearCalc()" class="bg-red-500 text-white p-3 rounded font-bold hover:bg-red-600">Clear</button>
+        <button onclick="backspaceCalc()" class="bg-yellow-500 text-white p-3 rounded font-bold hover:bg-yellow-600">Backspace</button>
+        <button onclick="calculateCalc()" class="col-span-1 bg-green-500 text-white p-3 rounded font-bold hover:bg-green-600">=</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE POPUP -->
+  <div id="timetableModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl p-6 m-4">
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="text-2xl font-bold">📅 Timetable</h4>
+        <button onclick="closeTimetable()" class="text-2xl hover:text-red-600">✕</button>
+      </div>
+      <div id="timetableContent">
+        <p class="text-gray-500">Loading timetable...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO POPUP -->
+  <div id="todoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl p-6 m-4">
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="text-2xl font-bold">✅ To-Do List</h4>
+        <button onclick="closeTodo()" class="text-2xl hover:text-red-600">✕</button>
+      </div>
+      <div class="flex gap-2 mb-4">
+        <input type="text" id="todoInput" placeholder="Add a new task..." class="flex-1 border-2 border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button onclick="addTodo()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add</button>
+      </div>
+      <div id="todoList" class="space-y-2">
+        <p class="text-gray-500">No tasks yet. Add one to get started!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI TUTOR POPUP -->
+  <div id="tutor" class="hidden fixed bottom-4 right-4 w-96 bg-white shadow-2xl rounded-lg p-6 z-40 max-h-96 overflow-hidden flex flex-col">
+    <div class="flex justify-between items-center mb-4 border-b pb-3">
+      <h4 class="text-xl font-bold">🤖 AI Tutor</h4>
+      <button onclick="closeTutor()" class="text-2xl hover:text-red-600 font-bold">✕</button>
+    </div>
+    <p class="text-sm text-gray-600 mb-3">Ask me anything about school work!</p>
+    <div id="tutorChat" class="flex-1 overflow-y-auto mb-3 bg-gray-50 p-3 rounded max-h-48">
+      <p class="text-xs text-gray-500">Chat history will appear here...</p>
+    </div>
+    <input id="question" type="text" placeholder="e.g., Explain photosynthesis" class="w-full border-2 border-gray-300 p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button onclick="askAI()" class="bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded font-semibold transition">Ask</button>
+  </div>
+
+  <script>
+    // Subject Functions
+    function openSubject(subject) {
+      const subjectData = {
+        'Mathematics': {
+          icon: '📊',
+          description: 'Master the fundamentals of Algebra, Geometry, and Calculus',
+          topics: ['Algebra', 'Geometry', 'Calculus', 'Statistics', 'Trigonometry'],
+          pastPapers: 5,
+          notes: 12
+        },
+        'Science': {
+          icon: '🧪',
+          description: 'Explore Physics, Chemistry, and Biology concepts',
+          topics: ['Physics', 'Chemistry', 'Biology', 'Ecology', 'Quantum Mechanics'],
+          pastPapers: 4,
+          notes: 15
+        },
+        'English': {
+          icon: '📖',
+          description: 'Develop your writing, reading, and literary analysis skills',
+          topics: ['Literature', 'Grammar', 'Writing', 'Poetry', 'Shakespeare'],
+          pastPapers: 6,
+          notes: 18
+        },
+        'History': {
+          icon: '🌍',
+          description: 'Learn about world events, civilizations, and historical timelines',
+          topics: ['Ancient History', 'Medieval History', 'Modern History', 'WWI', 'WWII'],
+          pastPapers: 4,
+          notes: 10
+        }
+      };
+
+      const data = subjectData[subject] || {};
+      const message = `${data.icon} ${subject}\n\n${data.description}\n\nTopics: ${data.topics.join(', ')}\nPast Papers: ${data.pastPapers}\nNotes: ${data.notes}\n\nFull access coming in v1.1!`;
+      alert(message);
+    }
+
+    function viewAllSubjects() {
+      alert('📚 All Subjects\n\nCurrent:\n- Mathematics\n- Science\n- English\n- History\n\nComing Soon:\n- Geography\n- Economics\n- Psychology\n- Computer Science');
+    }
+
+    // Search
+    document.getElementById('search').addEventListener('keyup', function(e) {
+      const query = e.target.value.toLowerCase();
+      const subjects = ['Mathematics', 'Science', 'English', 'History'];
+      const filtered = subjects.filter(s => s.toLowerCase().includes(query));
+      
+      if (query.length === 0) {
+        location.reload();
+      } else if (filtered.length > 0) {
+        alert(`Found: ${filtered.join(', ')}`);
+      } else {
+        alert(`No subjects found matching "${query}"`);
+      }
+    });
+
+    // Calculator
+    let calcExpression = '';
+    function openCalculator() {
+      document.getElementById('calculatorModal').classList.remove('hidden');
+      calcExpression = '';
+      document.getElementById('calcDisplay').value = '';
+    }
+    function closeCalculator() {
+      document.getElementById('calculatorModal').classList.add('hidden');
+    }
+    function appendCalc(value) {
+      calcExpression += value;
+      document.getElementById('calcDisplay').value = calcExpression;
+    }
+    function clearCalc() {
+      calcExpression = '';
+      document.getElementById('calcDisplay').value = '';
+    }
+    function backspaceCalc() {
+      calcExpression = calcExpression.slice(0, -1);
+      document.getElementById('calcDisplay').value = calcExpression;
+    }
+    function calculateCalc() {
+      try {
+        const expr = calcExpression.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
+        const result = eval(expr);
+        calcExpression = result.toString();
+        document.getElementById('calcDisplay').value = result;
+      } catch (e) {
+        document.getElementById('calcDisplay').value = 'Error';
+        calcExpression = '';
+      }
+    }
+
+    // Timetable
+    const timetable = [
+      { day: 'Monday', classes: [{ time: '9:00-10:00', subject: 'Mathematics', teacher: 'Mr. Smith', room: '101' }] },
+      { day: 'Tuesday', classes: [{ time: '9:00-10:00', subject: 'Science', teacher: 'Dr. Williams', room: 'Lab 1' }] },
+      { day: 'Wednesday', classes: [{ time: '9:00-10:00', subject: 'History', teacher: 'Mr. Brown', room: '105' }] },
+      { day: 'Thursday', classes: [{ time: '9:00-10:00', subject: 'English', teacher: 'Ms. Johnson', room: '204' }] },
+      { day: 'Friday', classes: [{ time: '9:00-10:00', subject: 'Assembly', teacher: 'All Staff', room: 'Hall' }] }
+    ];
+    
+    function openTimetable() {
+      let html = '<div class="space-y-4">';
+      timetable.forEach(day => {
+        html += `<div class="border-l-4 border-blue-500 pl-4"><h5 class="font-bold">${day.day}</h5>`;
+        day.classes.forEach(cls => {
+          html += `<div class="text-sm mt-1">⏰ ${cls.time} - ${cls.subject} (${cls.teacher}, Room ${cls.room})</div>`;
+        });
+        html += '</div>';
+      });
+      html += '</div>';
+      document.getElementById('timetableContent').innerHTML = html;
+      document.getElementById('timetableModal').classList.remove('hidden');
+    }
+    function closeTimetable() {
+      document.getElementById('timetableModal').classList.add('hidden');
+    }
+
+    // To-Do
+    let todoItems = JSON.parse(localStorage.getItem('todoItems')) || [
+      { id: 1, text: 'Complete Mathematics homework', completed: false },
+      { id: 2, text: 'Read English chapter', completed: false },
+      { id: 3, text: 'Study for Science test', completed: false }
+    ];
+    
+    function openTodo() {
+      document.getElementById('todoModal').classList.remove('hidden');
+      renderTodo();
+    }
+    function closeTodo() {
+      document.getElementById('todoModal').classList.add('hidden');
+      localStorage.setItem('todoItems', JSON.stringify(todoItems));
+    }
+    function addTodo() {
+      const input = document.getElementById('todoInput');
+      if (input.value.trim()) {
+        todoItems.push({ id: Date.now(), text: input.value, completed: false });
+        input.value = '';
+        renderTodo();
+      }
+    }
+    function toggleTodo(id) {
+      const item = todoItems.find(t => t.id === id);
+      if (item) item.completed = !item.completed;
+      renderTodo();
+    }
+    function deleteTodo(id) {
+      todoItems = todoItems.filter(t => t.id !== id);
+      renderTodo();
+    }
+    function renderTodo() {
+      let html = '';
+      todoItems.forEach(item => {
+        html += `<div class="flex items-center gap-2 bg-gray-50 p-2 rounded">
+          <input type="checkbox" ${item.completed ? 'checked' : ''} onchange="toggleTodo(${item.id})" class="cursor-pointer">
+          <span class="${item.completed ? 'line-through text-gray-500' : 'text-gray-800'} flex-1">${item.text}</span>
+          <button onclick="deleteTodo(${item.id})" class="text-red-500">✕</button>
+        </div>`;
+      });
+      document.getElementById('todoList').innerHTML = html || '<p class="text-gray-500">No tasks yet!</p>';
+    }
+
+    // AI Tutor
+    const tutorResponses = {
+      'photosynthesis': 'Photosynthesis is how plants convert light energy into chemical energy using CO₂ and H₂O to create glucose and oxygen.',
+      'mitochondria': 'Mitochondria are the powerhouse of the cell, responsible for producing ATP through cellular respiration.',
+      'algebra': 'Algebra deals with variables, equations, and functions. To solve equations, isolate the variable using inverse operations.',
+      'default': 'Great question! Break it into smaller parts, make flashcards, and practice problems. Ask me something more specific!'
+    };
+    let chatHistory = [];
+    
+    function openTutor() {
+      document.getElementById('tutor').classList.remove('hidden');
+      document.getElementById('question').focus();
+    }
+    function closeTutor() {
+      document.getElementById('tutor').classList.add('hidden');
+    }
+    function askAI() {
+      const q = document.getElementById('question').value.trim();
+      if (!q) return;
+      
+      const chat = document.getElementById('tutorChat');
+      chatHistory.push(`<div class="mb-2"><strong>You:</strong> ${q}</div>`);
+      
+      let answer = tutorResponses.default;
+      for (const key in tutorResponses) {
+        if (q.toLowerCase().includes(key)) {
+          answer = tutorResponses[key];
+          break;
+        }
+      }
+      
+      setTimeout(() => {
+        chatHistory.push(`<div class="mb-2 bg-blue-50 p-2 rounded"><strong>🤖:</strong> ${answer}</div>`);
+        chat.innerHTML = chatHistory.join('');
+        chat.scrollTop = chat.scrollHeight;
+      }, 300);
+      
+      document.getElementById('question').value = '';
+    }
+    document.addEventListener('keypress', e => {
+      if (e.target.id === 'question' && e.key === 'Enter') askAI();
+    });
+
+    // File Upload
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('upload');
+    
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.classList.add('border-blue-500', 'bg-blue-50');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+    });
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+      fileInput.files = e.dataTransfer.files;
+      showFileInfo(fileInput.files);
+    });
+    fileInput.addEventListener('change', () => showFileInfo(fileInput.files));
+    
+    function showFileInfo(files) {
+      if (files.length) {
+        document.getElementById('uploadMsg').innerText = `✓ ${files.length} file(s) selected`;
+      }
+    }
+    
+    function uploadFile() {
+      if (!fileInput.files.length) {
+        alert('Select a file first!');
+        return;
+      }
+      const progress = document.getElementById('uploadProgress');
+      progress.classList.remove('hidden');
+      let p = 0;
+      const interval = setInterval(() => {
+        p += Math.random() * 30;
+        if (p > 100) p = 100;
+        document.getElementById('progressBar').style.width = p + '%';
+        if (p === 100) {
+          clearInterval(interval);
+          document.getElementById('uploadMsg').innerHTML = `✅ ${fileInput.files.length} file(s) uploaded!`;
+          fileInput.value = '';
+          progress.classList.add('hidden');
+        }
+      }, 300);
+    }
+
+    // Keyboard support for calculator
+    document.addEventListener('keydown', e => {
+      const modal = document.getElementById('calculatorModal');
+      if (modal.classList.contains('hidden')) return;
+      if (e.key >= '0' && e.key <= '9' || e.key === '.') appendCalc(e.key);
+      if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        e.preventDefault();
+        appendCalc(e.key);
+      }
+      if (e.key === 'Enter') { e.preventDefault(); calculateCalc(); }
+      if (e.key === 'Backspace') { e.preventDefault(); backspaceCalc(); }
+      if (e.key === 'Escape') closeCalculator();
+    });
+  </script>
+</body>
+</html>
