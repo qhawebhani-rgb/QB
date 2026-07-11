@@ -1,184 +1,191 @@
-# QB for School 📚
+# QB for School - AI Study Assistant PWA
 
-**Do school work faster** - A comprehensive student study platform designed to help students ace their studies with AI assistance, task management, and study tools.
+A modern Progressive Web App (PWA) designed to help students study effectively with built-in quiz, note-taking, and Pomodoro timer features.
 
-🌐 **Live Site**: [https://qhawebhani-rgb.github.io/QB](https://qhawebhani-rgb.github.io/QB)
+## Features
 
----
+### 📚 Quiz System
+- Create custom quizzes on any topic
+- Choose the number of questions (3, 5, or 10)
+- Get instant feedback and scoring
+- Track your quiz performance
 
-## ✨ Features
+### 📝 Note Taking
+- Create and save study notes
+- Organize notes with titles and timestamps
+- View all your saved notes in one place
+- Quick delete functionality
 
-### 🎓 Core Features
-- **📊 Subjects** - Browse Mathematics, Science, English, History with past papers and notes
-- **🤖 AI Tutor** - Real-time AI assistance for explaining concepts and answering questions
-- **🧮 Calculator** - Scientific calculator with keyboard support
-- **📅 Timetable** - View and manage your class schedule
-- **✅ To-Do List** - Track assignments and tasks (persistent storage)
-- **📁 Notes Sharing** - Upload and share notes with classmates (drag & drop support)
+### ⏱️ Pomodoro Timer
+- Customizable work and break durations
+- Track study sessions
+- Monitor total study time
+- Session counter for the day
 
-### 🛠 Tech Stack
-- **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript
-- **Backend**: Node.js with Express.js
-- **Database**: SQLite (local) / PostgreSQL (production)
-- **Deployment**: GitHub Pages (frontend)
-- **API**: RESTful API with JSON
+### 📊 Dashboard
+- View daily statistics
+- Track quizzes taken, notes created, and minutes studied
+- See recent activity
+- Quick access to all features
 
----
+### 🌓 Dark/Light Mode
+- Toggle between dark and light themes
+- Preference saved locally
 
-## 🚀 Quick Start
+### 📱 PWA Features
+- Offline-first capability with service worker
+- Install as standalone app on mobile and desktop
+- Responsive design for all screen sizes
+- Fast loading and smooth performance
 
-### Live Demo
-Visit **[https://qhawebhani-rgb.github.io/QB](https://qhawebhani-rgb.github.io/QB)** to use the app right now!
+## Getting Started
 
-### Run Locally
+### Installation
 
-#### Prerequisites
-- Node.js (v14+)
-- npm or yarn
+#### Option 1: Direct Access
+Simply open the app in your browser at `/QB/`
 
-#### Installation
+#### Option 2: Install as App (PWA)
+1. Visit the app URL in your browser
+2. Click the install/add to home screen button (varies by browser)
+3. The app will be installed locally
 
-```bash
-# Clone the repository
-git clone https://github.com/qhawebhani-rgb/QB.git
-cd QB
+### Browser Support
+- Chrome/Edge 45+
+- Firefox 44+
+- Safari 11.1+
+- Mobile browsers with PWA support
 
-# Install dependencies
-npm install
+## Usage
 
-# Create .env file
-cp .env.example .env
+### Quiz
+1. Navigate to the Quiz tab
+2. Enter a topic (e.g., Biology, Math, History)
+3. Select number of questions
+4. Answer each question and track your progress
+5. Get your final score
 
-# Start the development server
-npm start
-```
+### Notes
+1. Go to the Notes tab
+2. Enter a title and content
+3. Click "Save Note"
+4. View all saved notes below
+5. Delete notes when no longer needed
 
-The application will run on `http://localhost:3000`
+### Timer
+1. Open the Timer tab
+2. Customize work and break durations (optional)
+3. Click "Start" to begin
+4. Click "Pause" to pause (resume available after pause)
+5. Click "Reset" to reset
+6. Get alerts when sessions complete
 
----
+## Technical Stack
 
-## 📁 Project Structure
+- **HTML5** - Structure and semantic markup
+- **CSS3** - Modern styling with CSS variables and Grid/Flexbox
+- **Vanilla JavaScript** - No dependencies required
+- **Service Worker** - Offline support and caching
+- **LocalStorage** - Data persistence
+
+## File Structure
 
 ```
 QB/
-├── index.html              # Main application file
-├── package.json            # Dependencies
-├── .env.example            # Environment template
-├── .gitignore              # Git ignore file
-├── README.md               # This file
-└── LICENSE                 # MIT License
+├── index.html          # Main HTML file
+├── styles.css          # All styling
+├── app.js             # Application logic
+├── sw.js              # Service worker
+├── manifest.json      # PWA manifest
+└── README.md          # This file
 ```
 
----
+## Features Details
 
-## 🎯 Features Implemented (v1.0)
+### Local Storage
+- All data is stored locally in your browser
+- Nothing is sent to any server
+- Use "Clear All Data" in settings to reset
 
-- [x] Subject browsing with detailed information
-- [x] Scientific calculator with keyboard support
-- [x] Timetable display with full week schedule
-- [x] To-Do list with localStorage persistence
-- [x] AI Tutor chat interface
-- [x] File upload with drag-and-drop
-- [x] Responsive mobile design
-- [x] Accessibility features (ARIA labels, keyboard navigation)
-- [x] Dark mode support
-- [x] Progress indicators and loading states
+### Offline Support
+- Works completely offline after first visit
+- Service worker caches essential files
+- All features available without internet
 
-## 🚧 Roadmap (Future Versions)
+### Responsive Design
+- Mobile-first approach
+- Works on phones, tablets, and desktops
+- Touch-friendly interface
 
-- [ ] User authentication and profiles
-- [ ] Real-time AI tutor with GPT integration
-- [ ] Peer-to-peer note sharing with ratings
-- [ ] Advanced calculator (graphs, matrix operations)
-- [ ] Mobile app (React Native)
-- [ ] Collaborative study groups
-- [ ] Progress tracking and analytics
-- [ ] Dark mode toggle
-- [ ] Push notifications
-- [ ] Offline support
+## Customization
 
----
+### Change Colors
+Edit CSS variables in `styles.css`:
+```css
+:root {
+  --primary: #6366F1;      /* Main color */
+  --secondary: #EC4899;    /* Accent color */
+  --background: #0F172A;   /* Background */
+}
+```
 
-## 🔒 Security Features
+### Add More Questions
+Edit the `generateQuestions()` function in `app.js` to add more topics and questions.
 
-- ✅ File upload validation (whitelist of MIME types)
-- ✅ Path traversal prevention
-- ✅ Input sanitization
-- ✅ Error handling
-- ✅ CORS configuration
-- ✅ Environment variable protection
+## Performance
 
----
+- Initial load: ~50KB
+- Service worker caching: ~30KB
+- Minimal JavaScript: ~25KB
+- All assets optimized
 
-## 🎨 UI/UX Improvements
+## Troubleshooting
 
-- ✅ Visual feedback on interactions
-- ✅ Smooth animations and transitions
-- ✅ Color-coded cards for each subject
-- ✅ Intuitive modal dialogs
-- ✅ Progress bars for uploads
-- ✅ Hover effects and visual states
-- ✅ Responsive grid layout
-- ✅ Mobile-friendly interface
+### Service Worker not working
+- Clear browser cache
+- Ensure HTTPS (or localhost)
+- Check browser console for errors
 
----
+### Data not persisting
+- Check if LocalStorage is enabled
+- Ensure browser allows storage for this domain
+- Try clearing browser cache and reloading
 
-## 📊 Code Quality
+### App not installing
+- Use HTTPS or localhost
+- Ensure manifest.json is accessible
+- Check browser supports PWA
 
-- ✅ Clean, modular JavaScript
-- ✅ Well-organized file structure
-- ✅ Comprehensive error handling
-- ✅ Input validation
-- ✅ Semantic HTML5
-- ✅ Accessible CSS
-- ✅ RESTful API design
+## Privacy
 
----
+QB respects your privacy:
+- No user tracking
+- No data collection
+- No external API calls
+- All data stored locally
 
-## 🤝 Contributing
+## Browser Compatibility
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+| Browser | Support |
+|---------|----------|
+| Chrome  | ✅ Full |
+| Edge    | ✅ Full |
+| Firefox | ✅ Full |
+| Safari  | ✅ Full |
+| Opera   | ✅ Full |
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## License
 
----
+MIT License - feel free to use and modify
 
-## 📄 License
+## Contributing
 
-MIT License - see [LICENSE](LICENSE) file for details
+Feel free to submit issues and enhancement requests!
 
----
+## Version
 
-## 🆘 Support
-
-For issues and feature requests, please [open an issue on GitHub](https://github.com/qhawebhani-rgb/QB/issues).
+Current Version: 1.0.0
 
 ---
 
-## 👨‍💻 Author
-
-Created by **[@qhawebhani-rgb](https://github.com/qhawebhani-rgb)**
-
----
-
-## 📈 Stats
-
-- **Version**: 1.0.0
-- **Lines of Code**: 1,500+
-- **Files**: 5
-- **Features**: 6 Core
-- **Supported Subjects**: 4 (Math, Science, English, History)
-
----
-
-## 🎯 Mission
-
-> **Help students do school work faster and smarter** 📚✨
-
-QB for School is dedicated to making student life easier by providing a centralized platform for study materials, quick calculations, schedule management, and AI-powered learning assistance.
-
-**Let's ace this! 🚀**
+**QB for School** - Making studying smarter, not harder! 📚✨
